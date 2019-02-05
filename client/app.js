@@ -3,12 +3,17 @@ import React from 'react'
 import { render } from 'react-dom'
 
 import client from './graphql/client'
+import Nav from './Nav'
+import Routes from './Routes'
 
 class Root extends React.Component {
   render() {
     return (
       <ApolloProvider client={client}>
-        <div>yay</div>
+        <div id="Root">
+          <Nav />
+          <Routes />
+        </div>
       </ApolloProvider>
     )
   }

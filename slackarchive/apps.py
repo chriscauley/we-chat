@@ -4,4 +4,4 @@ from django.apps import AppConfig
 
 
 class SlackarchiveConfig(AppConfig):
-    name = 'slackarchive'
+    name = "slackarchive"

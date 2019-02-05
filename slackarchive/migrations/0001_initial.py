@@ -12,46 +12,71 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-        migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-    ]
+    dependencies = [migrations.swappable_dependency(settings.AUTH_USER_MODEL)]
 
     operations = [
         migrations.CreateModel(
-            name='SlackMessage',
+            name="SlackMessage",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('data', jsonfield.fields.JSONField(default=dict)),
-                ('ts', models.CharField(max_length=20)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("data", jsonfield.fields.JSONField(default=dict)),
+                ("ts", models.CharField(max_length=20)),
             ],
         ),
         migrations.CreateModel(
-            name='SlackObject',
+            name="SlackObject",
             fields=[
-                ('id', models.CharField(max_length=12, primary_key=True, serialize=False)),
-                ('name', models.CharField(max_length=128)),
-                ('data', jsonfield.fields.JSONField(default=dict)),
-                ('object_type', models.CharField(max_length=64)),
-                ('updated', models.DateTimeField(auto_now=True)),
+                (
+                    "id",
+                    models.CharField(max_length=12, primary_key=True, serialize=False),
+                ),
+                ("name", models.CharField(max_length=128)),
+                ("data", jsonfield.fields.JSONField(default=dict)),
+                ("object_type", models.CharField(max_length=64)),
+                ("updated", models.DateTimeField(auto_now=True)),
             ],
         ),
         migrations.CreateModel(
-            name='SlackUser',
+            name="SlackUser",
             fields=[
-                ('id', models.CharField(max_length=12, primary_key=True, serialize=False)),
-                ('data', jsonfield.fields.JSONField(default=dict)),
-                ('updated', models.DateTimeField(auto_now=True)),
-                ('user', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.CharField(max_length=12, primary_key=True, serialize=False),
+                ),
+                ("data", jsonfield.fields.JSONField(default=dict)),
+                ("updated", models.DateTimeField(auto_now=True)),
+                (
+                    "user",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
         migrations.AddField(
-            model_name='slackmessage',
-            name='channel',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='slackarchive.SlackObject'),
+            model_name="slackmessage",
+            name="channel",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                to="slackarchive.SlackObject",
+            ),
         ),
         migrations.AddField(
-            model_name='slackmessage',
-            name='slackuser',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='slackarchive.SlackUser'),
+            model_name="slackmessage",
+            name="slackuser",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, to="slackarchive.SlackUser"
+            ),
         ),
     ]

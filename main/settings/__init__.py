@@ -8,13 +8,7 @@ pwd = os.path.dirname(__file__)
 sys.path.append(os.path.join(pwd, ".."))
 machine_name = re.sub("[^A-z0-9._]", "_", socket.gethostname())
 
-settings_files = [
-    "00-base",
-    "10-apps",
-    "90-env",
-    machine_name,
-    "local",
-]
+settings_files = ["00-base", "10-apps", "90-env", machine_name, "local"]
 
 for s_file in settings_files:
     try:

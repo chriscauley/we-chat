@@ -2,10 +2,10 @@
   "name": "we-chat",
   "version": "0.0.1",
   "description": "",
-  "main": "client/index.js",
+  "main": "client/index.html",
   "scripts": {
-    "build": "parcel build ./client/index.js --public-url /static/",
-    "watch": "parcel watch ./client/index.js --public-url /static/",
+    "build": "parcel build ./client/index.html --public-url /static/",
+    "watch": "parcel watch ./client/index.html --public-url /static/",
     "lint": "eslint client --quiet"
   },
   "author": "chriscauley <chris@lablackey.com>",

@@ -4,7 +4,7 @@ import { render } from 'react-dom'
 
 import client from './graphql/client'
 import Nav from './Nav'
-import Routes from './Routes'
+import Screens from './Screens'
 
 class Root extends React.Component {
   render() {
@@ -12,7 +12,7 @@ class Root extends React.Component {
       <ApolloProvider client={client}>
         <div id="Root">
           <Nav />
-          <Routes />
+          <Screens />
         </div>
       </ApolloProvider>
     )

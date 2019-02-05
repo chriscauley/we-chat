@@ -2,12 +2,13 @@
 
 # packages
 .venv
-__pycache__
 node_modules
 yarn-error.log
-.cache
 
 # cache files
+__pycache__
+dist
+.cache
 main/db.sqlite3
 .static
 ._staticfiles

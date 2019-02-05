@@ -1,0 +1,15 @@
+.envrc
+.venv
+
+# node stuff
+node_modules
+yarn-error.log
+.cache
+
+# cache files
+main/db.sqlite3
+.static
+._staticfiles
+
+# local settings
+main/settings/local.py

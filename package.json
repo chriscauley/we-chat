@@ -1,0 +1,42 @@
+{
+  "name": "we-chat",
+  "version": "0.0.1",
+  "description": "",
+  "main": "client/index.js",
+  "scripts": {
+    "build": "parcel build ./client/index.js --public-url /static/",
+    "watch": "parcel watch ./client/index.js --public-url /static/",
+    "lint": "eslint client --quiet"
+  },
+  "author": "chriscauley <chris@lablackey.com>",
+  "license": "ISC",
+  "dependencies": {
+    "@reach/router": "^1.2.1",
+    "cookie": "^0.3.1",
+    "cookie-parse": "^0.4.0",
+    "date-fns": "^1.29.0",
+    "graphql": "^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0",
+    "graphql-tag": "^2.10.0",
+    "parcel": "^1.10.3",
+    "prettier": "^1.14.3",
+    "react": "^0.14.0 || ^15.0.0-0 || ^16.0.0-0",
+    "react-dom": "15.x || 16.x || 16.4.0-alpha.0911da3",
+    "react-jsonschema-form": "^1.0.5",
+    "react-router": "^4.3.1",
+    "react-swipeable": "^4.3.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.1.2",
+    "@babel/plugin-proposal-class-properties": "^7.1.0",
+    "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.7.0",
+    "eslint-config-prettier": "^3.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-prettier": "^3.0.0",
+    "eslint-plugin-promise": "^4.0.1",
+    "eslint-plugin-react": "^7.11.1",
+    "parcel-plugin-bundle-visualiser": "^1.2.0",
+    "sass": "^1.14.3"
+  }
+}

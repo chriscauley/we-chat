@@ -1,0 +1,10 @@
+#!/bin/bash
+
+dropdb we-chat --if-exists
+if [[ "$?" -ne "0" ]]; then
+    echo "Failed to drop database due to open connections"
+    exit 1
+fi
+createdb we-chat
+python manage.py migrate
+python manage.py loaddata fixtures/*.json 

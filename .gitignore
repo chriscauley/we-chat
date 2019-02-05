@@ -1,7 +1,8 @@
 .envrc
-.venv
 
-# node stuff
+# packages
+.venv
+__pycache__
 node_modules
 yarn-error.log
 .cache

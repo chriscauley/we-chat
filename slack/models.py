@@ -1,67 +1,54 @@
 from django.conf import settings
+from django.contrib.postgres.fields import JSONField
 from django.db import models
-
-from jsonfield import JSONField
-from lablackey.sms.var import random_voice
 
 import re
 
 
-class SlackObject(models.Model):
+class SlackModel(models.Model):
+    class Meta:
+        abstract = True
     id = models.CharField(max_length=12, primary_key=True)
     name = models.CharField(max_length=128)
     data = JSONField(default=dict)
-    object_type = models.CharField(max_length=64)
     updated = models.DateTimeField(auto_now=True)
-    __unicode__ = lambda self: self.name
+    def __str__(self):
+        return self.name
 
     @classmethod
-    def ninja_add(clss, json):
-        object_type = (
-            "channel"
-        )  # this will eventually need to be set either by an argument or by evaluating content of json
-        obj, new = clss.objects.get_or_create(
-            id=json["id"], name=json["name"], object_type=object_type
-        )
+    def ninja_add(clss, json, **defaults):
+        defaults = {
+            'name': json["name"],
+            **defaults
+        }
+        obj, new = clss.objects.get_or_create(id=json["id"],defaults=defaults)
         if new:
             print("created: %s" % obj.name)
+        for key,value in defaults.items():
+            setattr(obj,key,value)
         obj.data = json
         obj.save()
+        return obj
 
 
-class SlackUser(models.Model):
-    id = models.CharField(max_length=12, primary_key=True)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True)
+class SlackChannel(SlackModel):
+    watching = models.BooleanField(default=False)
+
+class SlackUser(SlackModel):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True,on_delete=models.SET_NULL)
+
+
+class SlackMessage(SlackModel):
     data = JSONField(default=dict)
-    updated = models.DateTimeField(auto_now=True)
-
-
-class SlackMessage(models.Model):
-    data = JSONField(default=dict)
-    channel = models.ForeignKey(SlackObject)
-    slackuser = models.ForeignKey(SlackUser)
-    ts = models.CharField(
+    channel = models.ForeignKey(SlackChannel,on_delete=models.CASCADE)
+    slackuser = models.ForeignKey(SlackUser,on_delete=models.CASCADE)
+    """ts = models.CharField(
         max_length=20
-    )  # timestamp, used with slackuser and channel to ensure uniqueness
+    ) # timestamp, used with slackuser and channel to ensure uniqueness"""
 
     @classmethod
-    def ninja_add(clss, json, channel):
-        slackuser = SlackUser.objects.get_or_create(id=json["user"])[0]
-        obj, new = clss.objects.get_or_create(
-            channel=channel, ts=json["ts"], slackuser=slackuser
-        )
-        obj.data = json
-        obj.save()
-
-    def lines(self):
-        x = self.data
-        text = re.sub("\s+", " ", self.data["text"])
-        quote_tag = '"'
-        if text.startswith("'"):
-            quote_tag = "'"
-        lines = text.split(quote_tag + " " + quote_tag)
-        out = []
-        for line in lines:
-            v, l = random_voice()
-            out.append([line.replace(quote_tag, ""), v, l])
-        return out
+    def ninja_add(clss, json, **defaults):
+        defaults['slackuser'] = SlackUser.objects.get_or_create(id=json["user"])[0]
+        if not 'channel' in defaults:
+            raise NotImplementedError
+        return super().ninja_add(json,**defaults)

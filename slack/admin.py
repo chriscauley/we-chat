@@ -1,15 +1,17 @@
 from django.contrib import admin
 
-from .models import SlackObject, SlackUser, SlackMessage
+from .models import SlackChannel, SlackUser, SlackMessage
 
 
 class SlackAdmin(admin.ModelAdmin):
     readonly_fields = ["data"]
 
-
-@admin.register(SlackObject)
-class SlackObjectAdmin(SlackAdmin):
-    pass
+@admin.register(SlackChannel)
+class SlackChannelAdmin(SlackAdmin):
+    list_display = [
+        'name',
+        'watching'
+    ]
 
 
 @admin.register(SlackUser)

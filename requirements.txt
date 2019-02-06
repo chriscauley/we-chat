@@ -7,3 +7,5 @@ python-social-auth==0.3.6
 python-social-auth[django]
 
 black==18.9b0
+
+graphene-django==2.2.0

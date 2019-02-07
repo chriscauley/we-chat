@@ -40,17 +40,30 @@ class SlackUser(SlackModel):
     )
 
 
-class SlackMessage(SlackModel):
+class SlackMessage(models.Model):
     data = JSONField(default=dict)
+    updated = models.DateTimeField(auto_now=True)
+
     channel = models.ForeignKey(SlackChannel, on_delete=models.CASCADE)
     slackuser = models.ForeignKey(SlackUser, on_delete=models.CASCADE)
-    """ts = models.CharField(
+    ts = models.CharField(
         max_length=20
-    ) # timestamp, used with slackuser and channel to ensure uniqueness"""
+    )  # timestamp, used with slackuser and channel to ensure uniqueness
 
     @classmethod
     def ninja_add(clss, json, **defaults):
-        defaults["slackuser"] = SlackUser.objects.get_or_create(id=json["user"])[0]
+        slackuser = SlackUser.objects.get_or_create(id=json["user"])[0]
+        ts = json["ts"]
         if not "channel" in defaults:
             raise NotImplementedError
-        return super().ninja_add(json, **defaults)
+
+        obj, new = clss.objects.get_or_create(
+            ts=ts, slackuser=slackuser, defaults=defaults
+        )
+        if new:
+            print("created: message #", obj.id)
+        for key, value in defaults.items():
+            setattr(obj, key, value)
+        obj.data = json
+        obj.save()
+        return obj

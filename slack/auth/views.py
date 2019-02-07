@@ -10,9 +10,10 @@ from slackclient import SlackClient
 
 def associate_by_slack_name(backend, details, user=None, *args, **kwargs):
     """
-  Associate pre-existing users by slack name. Useful for prepopulating data from slack api.
-  Not recommended if multiple slack domains are used.
-  """
+    Associate pre-existing users by slack name.
+    Useful for prepopulating data from slack api.
+    Not recommended if multiple slack domains are used.
+    """
     if user:
         return
     username = details["username"]
@@ -26,19 +27,17 @@ def associate_by_slack_name(backend, details, user=None, *args, **kwargs):
 @partial
 def validate_team(backend, details, response, is_new=False, *args, **kwargs):
     if backend.name == "slack" and is_new:
-        domain = response["url"].split("//")[-1].split(".slack.com")[0]
-        if domain not in settings.ALLOWED_SLACK_DOMAINS:
-            return HttpResponseRedirect("/slack-domain-not-allowed/?domain=%s" % domain)
+        team_id = response["team"]["id"]
+        if team_id not in settings.ALLOWED_SLACK_TEAMS:
+            url = "/slack-domain-not-allowed/?domain=%s" % domain
+            return HttpResponseRedirect(url)
 
 
 def set_team(backend, details, response, is_new, user=None, *args, **kwargs):
-    if backend.name == "slack" and not "team" in kwargs["social"].extra_data:
-        domain = response["url"].split("//")[-1].split(".slack.com")[0]
+    if backend.name == "slack" and not "team_id" in kwargs["social"].extra_data:
+        team_id = response["team"]["id"]
         social = kwargs["social"]
-        team_keys = ["team", "team_name", "url"]
-        team = {k: response[k] for k in team_keys}
-        team["domain"] = domain
-        social.set_extra_data({"team": team})
+        social.set_extra_data({"team_id": team_id})
         social.save()
 
 
@@ -53,3 +52,15 @@ def slack_redirect(request, username):
     user = get_object_or_404(get_user_model(), username=username)
     team = user.social_auth.filter(provider="slack")[0].extra_data["team"]
     return HttpResponseRedirect("%smessages/@%s" % (team["url"], username))
+
+
+def get_additional_permissions(request):
+    slack_name = "we-evolve"
+    path = "/complete/slack/"
+    params = {
+        "client_id": settings.SOCIAL_AUTH_SLACK_KEY,
+        "redirect_uri": f"{settings.SITE_ORIGIN}{path}",
+        "scope": ",".join(settings.EXTRA_SLACK_SCOPE),
+        "state": "",  # random string to track back?
+    }
+    f"https://{slack_name}.slack.com/oauth?{qs}"

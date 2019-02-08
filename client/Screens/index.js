@@ -3,8 +3,9 @@ import { Router } from '@reach/router'
 
 import Home from './Home'
 import Login from './Login'
+import ChannelDetail from './ChannelDetail'
 
-const raw_screens = [Login, Home]
+const raw_screens = [Login, Home, ChannelDetail]
 
 const screens = []
 
@@ -18,7 +19,7 @@ raw_screens.forEach((Screen, key) => {
   ])
 })
 
-export { Login, Home }
+export { Login, Home, ChannelDetail }
 
 export default class Screens extends React.Component {
   render() {

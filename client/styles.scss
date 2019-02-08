@@ -1,3 +1,24 @@
+html, body {
+  margin: 0;
+  height: 100%;
+}
 body {
-  background: pink;
+  background: #eee;
+  overflow: hidden scroll;
+}
+
+#root {
+  min-height: 100%;
+  max-width: 600px;
+  background: white;
+  display: flex;
+  margin: 0 auto;
+}
+
+.channel-list {
+
+}
+
+#nav {
+  padding: 0.5rem;
 }

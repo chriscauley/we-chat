@@ -10,10 +10,8 @@ class Root extends React.Component {
   render() {
     return (
       <ApolloProvider client={client}>
-        <div id="Root">
-          <Nav />
-          <Screens />
-        </div>
+        <Nav />
+        <Screens />
       </ApolloProvider>
     )
   }

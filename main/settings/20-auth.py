@@ -1,4 +1,4 @@
-EXTRA_SLACK_SCOPE = ["team:read", "channels:history", "channels:read"]
+EXTRA_SLACK_SCOPE = ["team:read", "channels:history", "channels:read", "users:read"]
 SOCIAL_AUTH_POSTGRES_JSONFIELD = True
 
 
@@ -23,3 +23,5 @@ SOCIAL_AUTH_PIPELINE = (
 )
 
 ALLOWED_SLACK_TEAMS = ["TFSGCTN4F"]
+
+LOGIN_REDIRECT_URL = "/"

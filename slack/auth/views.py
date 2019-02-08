@@ -5,6 +5,8 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.template.response import TemplateResponse
 
+from urllib.parse import urlencode
+
 from slackclient import SlackClient
 
 
@@ -61,6 +63,8 @@ def get_additional_permissions(request):
         "client_id": settings.SOCIAL_AUTH_SLACK_KEY,
         "redirect_uri": f"{settings.SITE_ORIGIN}{path}",
         "scope": ",".join(settings.EXTRA_SLACK_SCOPE),
-        "state": "",  # random string to track back?
+        "state": "MxaZIUopRgV6EpAsgVCcAzbwtC0Jrv0z",  # random string to track back?
     }
-    f"https://{slack_name}.slack.com/oauth?{qs}"
+    qs = urlencode(params)
+    url = f"https://{slack_name}.slack.com/oauth?{qs}"
+    return HttpResponseRedirect(url)

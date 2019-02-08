@@ -19,7 +19,7 @@ class SlackModel(models.Model):
 
     @classmethod
     def ninja_add(clss, json, **defaults):
-        defaults = {"name": json["name"], **defaults}
+        defaults = {"name": json["name"], "data": json, **defaults}
         obj, new = clss.objects.get_or_create(id=json["id"], defaults=defaults)
         if new:
             print("created: %s" % obj.name)
@@ -52,7 +52,7 @@ class SlackMessage(models.Model):
 
     @classmethod
     def ninja_add(clss, json, **defaults):
-        slackuser = SlackUser.objects.get_or_create(id=json["user"])[0]
+        slackuser = SlackUser.objects.get(id=json["user"])
         ts = json["ts"]
         if not "channel" in defaults:
             raise NotImplementedError

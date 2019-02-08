@@ -6,6 +6,8 @@ import unrest.urls
 
 urlpatterns = [
     path("", include("social_django.urls", namespace="social")),
+    path("", include("slack.auth.urls")),
+    path("", include("slack.urls")),
     path("admin/", admin.site.urls),
     path("", include(unrest.urls)),
     path("graphql", GraphQLView.as_view(graphiql=True)),

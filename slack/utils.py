@@ -25,6 +25,9 @@ def get_client():
 def log_channels():
     i = 0
     sc = get_client()
+    users_list = sc.api_call("users.list")
+    for user in users_list["members"]:
+        SlackUser.ninja_add(user)
     channels_list = sc.api_call("channels.list")
     bot_id = sc.api_call("auth.test")["user_id"]
     for data in channels_list["channels"]:

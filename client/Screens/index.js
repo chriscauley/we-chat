@@ -7,17 +7,13 @@ import ChannelDetail from './ChannelDetail'
 
 const raw_screens = [Login, Home, ChannelDetail]
 
-const screens = []
-
-raw_screens.forEach((Screen, key) => {
-  screens.push([
-    Screen,
-    {
-      path: Screen.path,
-      key,
-    },
-  ])
-})
+const screens = raw_screens.map((Screen, key) => [
+  Screen,
+  {
+    path: Screen.path,
+    key,
+  },
+])
 
 export { Login, Home, ChannelDetail }
 

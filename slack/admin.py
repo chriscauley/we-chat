@@ -10,6 +10,7 @@ class SlackAdmin(admin.ModelAdmin):
 @admin.register(SlackChannel)
 class SlackChannelAdmin(SlackAdmin):
     list_display = ["name", "watching"]
+    list_editable = ["watching"]
 
 
 @admin.register(SlackUser)
